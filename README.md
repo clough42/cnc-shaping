@@ -1,8 +1,6 @@
 # CNC Shaping Resources
 GCODE and other resources for shaping in the CNC mill
 
-For more information, see the following YouTube videos:
-
 ## Making a Keyway Broach
 [![CNC Broaching a Keyway in Steel](https://img.youtube.com/vi/WUXmFfusj8Q/0.jpg)](https://www.youtube.com/watch?v=WUXmFfusj8Q)
 
