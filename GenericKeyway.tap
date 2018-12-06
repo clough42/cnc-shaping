@@ -1,0 +1,47 @@
+(Cut a keyway in a bore with a vertical shaping tool)
+(Spindle is zeroed on the center of the bore)
+(Keyway is cut on the positive Y side)
+(2018 Clough42 - clough42.com)
+
+(parameters)
+#1   = 0.236            (key width - b)
+#2   = 0.110            (keyway depth - t2)
+#3   = 0.748            (shaft diameter - d)
+#4   = 0.123            (cutter width)
+#5   = 0.406            (cutter length +y from spindle center)
+#6   = 0.100            (top of stroke)
+#7   = -1.700           (bottom of stroke)
+#8   = 0.002            (depth of cut - per stroke)
+#9   = 0.001            (x spring compensation)
+#10  = 0.002            (y spring compensation)
+#11  = 75               (plunge feedrate)
+
+(calculated)
+#100 = [#3 / 2]                             (shaft radius)
+#101 = [#1/2]                               (half of key width)
+#102 = [[#1-#4]/2]                          (x offset - half of key width minus cutter width)
+#103 = [SQRT[[#100*#100]-[#101*#101]] - #5] (starting Y position - Pythagorus FTW)
+#104 = [#100 + #2 + #10 - #5]               (ending y position)
+#105 = [#104 - #103]                        (total y feed)
+#106 = [#105 / #8]                          (number of loops)
+
+
+(main program)
+#200 = #103             (y position)
+G0 X0 Y#200             (move to zero X and starting Y)
+G0 Z#6                  (move Z to top of stroke)
+M98 P0002 L#106         (run the plunge multiple times)
+M30                     (end and rewind)
+
+
+(subprogram for individual plunge)
+O0002
+G0 Y#200                (move to Y position)
+G0 X[#102 + #9]         (move X to one side)
+G1 Z#7 F#11             (plunge)
+G0 Z#6                  (retract)
+G0 X[0 - #102 - #9]     (move X to other side)
+G1 Z#7 F#11             (plunge)
+G0 Z#6                  (retract)
+#200 = [#200 + #8]      (increment Y position)
+M99
