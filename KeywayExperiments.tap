@@ -1,0 +1,32 @@
+(Cut a keyway in a bore with a vertical shaping tool)
+(Spindle is zeroed on the center of the bore)
+(Keyway is cut on the positive Y side)
+(2018 Clough42 - clough42.com)
+
+(parameters)
+#100 = -0.051           (starting Y position)
+#101 = 0.058            (positive X offset)
+#102 = [0 - #101]       (negative X offset)
+#103 = 0.100            (Z top of stroke)
+#104 = -1.700           (Z bottom of stroke)
+#105 = 0.002            (Y increment)
+#106 = 65               (number of Y steps)
+
+
+G0 X0 Y#100             (move to safe X and Y)
+G0 Z#103                (move Z to starting position)
+M98 P0002 L#106         (run the plunge multiple times)
+M30                     (end and rewind)
+
+
+(subprogram for individual plunge)
+O0002
+G0 Y#100                (move to Y position)
+G0 X#101                (move X to one side)
+G1 Z#104 F75            (plunge)
+G0 Z#103                (retract)
+G0 X#102                (move X to other side)
+G1 Z#104 F75            (plunge)
+G0 Z#103                (retract)
+#100 = [#100 + #105]    (increment Y position)
+M99
